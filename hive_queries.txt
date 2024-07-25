@@ -1,0 +1,51 @@
+-- Create hive table:
+CREATE TABLE water_quality_data (
+    Conductivity DOUBLE,
+    PH_of_the_solution DOUBLE,
+    PH_of_water_backwash DOUBLE,
+    PH_of_seawater DOUBLE,
+    PH_of_treated_water DOUBLE,
+    Pressure_of_water_entering_membrane_1 DOUBLE,
+    Pressure_of_water_entering_membrane_2 DOUBLE,
+    Pressure_of_water_entering_membrane_3 DOUBLE,
+    Pressure_of_water_entering_membrane_4 DOUBLE,
+    Pressure_of_water_entering_membrane_5 DOUBLE,
+    Turbidity DOUBLE,
+    Temperature DOUBLE
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;
+
+-- Load data from hdfs table into hive table:
+LOAD DATA LOCAL INPATH '/path/to/water_data.csv' INTO TABLE water_quality_data;
+
+-- Interrogating the data:
+-- Retrieve data from table:
+SELECT * FROM water_quality_data;
+
+-- Calculate the average of ph of the solution:
+SELECT AVG(PH_of_the_solution) AS avg_PH_of_the_solution FROM water_quality_data;
+
+-- Calculate the average of the membranes pressure:
+SELECT 
+    AVG(Pressure_of_water_entering_membrane_1) AS avg_pressure_membrane_1,
+    AVG(Pressure_of_water_entering_membrane_2) AS avg_pressure_membrane_2,
+    AVG(Pressure_of_water_entering_membrane_3) AS avg_pressure_membrane_3,
+    AVG(Pressure_of_water_entering_membrane_4) AS avg_pressure_membrane_4,
+    AVG(Pressure_of_water_entering_membrane_5) AS avg_pressure_membrane_5
+FROM water_quality_data;
+
+-- Calculate the averages of ph of seawater and ph of treated water:
+
+SELECT AVG(PH_of_seawater) AS avg_ph_of_seawater, AVG(PH_of_treated_water) AS avg_ph_of_treated_water
+FROM water_quality_data;
+
+-- Calculate the max and min of ph of seawater and ph of treated water:
+
+SELECT
+MAX(PH_of_seawater) AS max_ph_of_seawater,
+MAX(PH_of_treated_water) AS max_ph_of_treated_water,
+MIN(PH_of_seawater) AS min_ph_of_seawater,
+MIN(PH_of_treated_water) AS min_ph_of_treated_water
+FROM water_quality_data;

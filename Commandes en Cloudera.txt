@@ -1,0 +1,20 @@
+# change keyboard from Qwerty to Azerty:
+setxkbmap fr
+
+# check safemode status:
+hdfs dfsadmin -safemode get
+
+# if safemode is ON:
+hdfs dfsadmin -safemode leave
+
+# if safemode is still ON and cannot leave:
+sudo -u hdfs hdfs dfsadmin -safemode leave
+
+# Make directory:
+hdfs dfs -mkdir -p /user/cloudera/projet/water_quality
+
+# Grant full access and permission to the dir:
+hdfs dfs -chmod 777 /user/cloudera/projet/water_quality
+
+# HDFS cluster status
+sudo -u hdfs hdfs dfsadmin -report
